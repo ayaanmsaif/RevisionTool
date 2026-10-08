@@ -36,6 +36,14 @@
 
   --shadow-tint: 221 40% 30%;
 
+  /* Chart colours, validated with the dataviz palette checks against --surface. */
+  --series-1: #3358f0;
+  --series-2: #eb6834;
+  --heat-1: #8fa2f6;
+  --heat-2: #6683f3;
+  --heat-3: #3358f0;
+  --heat-4: #1f3aa8;
+
   --z-nav: 10;
   --z-overlay: 40;
   --z-modal: 50;
@@ -70,6 +78,13 @@
   --flame: #ff8b3a;
 
   --shadow-tint: 225 50% 2%;
+
+  --series-1: #6383ff;
+  --series-2: #d95926;
+  --heat-1: #34499f;
+  --heat-2: #4663dc;
+  --heat-3: #6c89ff;
+  --heat-4: #a9b9ff;
 
   color-scheme: dark;
 }

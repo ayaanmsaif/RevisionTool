@@ -27,6 +27,7 @@ import {
 import type { ParsedDeck } from '../core/schema'
 import { db } from '../db/db'
 import { findDeckByName, importDeck, updateProfile, type ImportSummary } from '../db/repo'
+import { announceAchievements } from '../lib/achievements'
 import { Button } from '../components/ui/Button'
 import { Field, Segmented, ToggleChip, inputClass } from '../components/ui/Controls'
 import { PageHeader, Panel, SectionTitle } from '../components/ui/Panel'
@@ -34,7 +35,7 @@ import { RichText } from '../components/RichText'
 import { useProfile } from '../state/hooks'
 import { toast } from '../state/toast'
 import { copyText } from '../lib/clipboard'
-import sampleDeck from '../../../../examples/sample-deck.json?raw'
+import { SAMPLE_DECK_TEXT as sampleDeck } from '../lib/sample'
 
 const LEVELS: { value: Level; label: string }[] = [
   { value: 'GCSE', label: 'GCSE' },
@@ -271,6 +272,7 @@ function ReplyImporter(): React.JSX.Element {
       })
       setText('')
       setFileName(undefined)
+      void announceAchievements()
       navigate(summaries.length === 1 ? `/deck/${summaries[0].deckId}` : '/')
     } catch (e) {
       toast({

@@ -4,6 +4,8 @@ import { Placeholder } from './screens/Placeholder'
 import { ImportScreen } from './screens/ImportScreen'
 import { DeckScreen } from './screens/DeckScreen'
 import { StudyScreen } from './study/StudyScreen'
+import { HomeScreen } from './screens/HomeScreen'
+import { StatsScreen } from './screens/StatsScreen'
 
 export const router = createHashRouter([
   { path: '/study', element: <StudyScreen /> },
@@ -11,11 +13,11 @@ export const router = createHashRouter([
     path: '/',
     element: <AppShell />,
     children: [
-      { index: true, element: <Placeholder title="Home" /> },
+      { index: true, element: <HomeScreen /> },
       { path: 'deck/:deckId', element: <DeckScreen /> },
       { path: 'import', element: <ImportScreen /> },
       { path: 'browse', element: <Placeholder title="Cards" /> },
-      { path: 'stats', element: <Placeholder title="Stats" /> },
+      { path: 'stats', element: <StatsScreen /> },
       { path: 'games', element: <Placeholder title="Games" /> },
       { path: 'settings', element: <Placeholder title="Settings" /> }
     ]
