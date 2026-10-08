@@ -180,7 +180,8 @@ export function planImport(
       suspended: 0,
       flagged: 0,
       leech: 0,
-      createdAt: now,
+      // One millisecond apart so new cards are introduced in the deck's own order.
+      createdAt: now + add.length,
       updatedAt: now
     }
     add.push(created)

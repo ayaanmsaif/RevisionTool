@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { RichText } from '../../components/RichText'
 import type { Question } from '../../core/questions'
+import { isTyping } from './keys'
 import { ChoiceTile, Prompt, type ViewProps } from './shared'
 
 type Mcq = Extract<Question, { type: 'mcq' }>
@@ -28,6 +29,7 @@ export function McqView({
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {
+      if (isTyping(e)) return
       const n = Number(e.key)
       if (n >= 1 && n <= question.options.length) pick(n - 1)
     }

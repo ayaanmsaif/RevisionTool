@@ -6,6 +6,7 @@ import { Kbd } from '../../components/ui/Controls'
 import { Button } from '../../components/ui/Button'
 import { now } from '../../core/clock'
 import type { Question } from '../../core/questions'
+import { isTyping } from './keys'
 import { formatInterval, previewIntervals } from '../../core/scheduler'
 import { Rating, type RatingValue, type Verdict } from '../../core/types'
 import { sfx } from '../../audio/sfx'
@@ -48,6 +49,7 @@ export function FlipView({
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {
+      if (isTyping(e)) return
       if (!shown && (e.key === ' ' || e.key === 'Enter')) {
         e.preventDefault()
         reveal()

@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, nativeTheme } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { registerFileHandlers } from './files'
 
 // Tests and screenshots run against a throwaway profile so real study data is never touched.
 if (process.env['REVISIONTOOL_USER_DATA']) {
@@ -60,6 +61,7 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
+  registerFileHandlers()
   createWindow()
 
   app.on('activate', function () {

@@ -95,6 +95,15 @@ describe('planImport', () => {
   })
 })
 
+describe('card order', () => {
+  it('keeps the deck order for new cards', () => {
+    const cards = Array.from({ length: 30 }, (_, i) => ({ q: `Q${i}`, a: `A${i}` }))
+    const plan = planImport(parsedDeck(cards), { cards: [] }, NOW)
+    const sorted = [...plan.add].sort((a, b) => a.createdAt - b.createdAt).map((c) => c.q)
+    expect(sorted).toEqual(cards.map((c) => c.q))
+  })
+})
+
 describe('deck defaults', () => {
   it('picks a subject emoji and a stable colour', () => {
     expect(defaultEmoji('Organic Chemistry')).toBe('⚗️')

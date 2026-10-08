@@ -1,6 +1,6 @@
 import { startOfStudyDay } from '../core/clock'
-import { planImport } from '../core/importer'
-import { applyRating, isMastered, retrievability } from '../core/scheduler'
+import { cardHash, planImport } from '../core/importer'
+import { applyRating, isMastered, newMemory, retrievability } from '../core/scheduler'
 import type { ParsedDeck } from '../core/schema'
 import { planQueue } from '../core/session'
 import {
@@ -13,6 +13,7 @@ import {
 } from '../core/settings'
 import {
   MemState,
+  type CardContent,
   type CardRecord,
   type Deck,
   type Format,
@@ -21,6 +22,7 @@ import {
   type StudyMode,
   type Verdict
 } from '../core/types'
+import { uid } from '../core/util'
 import { db } from './db'
 
 export const LEECH_LAPSES = 6
@@ -326,4 +328,57 @@ export async function deleteCards(ids: string[]): Promise<void> {
     await db.cards.bulkDelete(ids)
     await db.reviews.where('cardId').anyOf(ids).delete()
   })
+}
+
+// ---------- manual editing ----------
+
+/** Create a card by hand (from the card editor). */
+export async function addCard(
+  deckId: string,
+  content: CardContent,
+  now: number
+): Promise<CardRecord> {
+  const mem = newMemory(now)
+  const card: CardRecord = {
+    ...content,
+    id: uid(),
+    deckId,
+    hash: cardHash(content.kind, content.q),
+    mem,
+    due: mem.due,
+    suspended: 0,
+    flagged: 0,
+    leech: 0,
+    createdAt: now,
+    updatedAt: now
+  }
+  await db.transaction('rw', db.cards, db.decks, async () => {
+    await db.cards.add(card)
+    await db.decks.update(deckId, { updatedAt: now })
+  })
+  return card
+}
+
+/** Save edited content (and optionally a new deck) while keeping review history. */
+export async function saveCardContent(
+  id: string,
+  content: CardContent,
+  deckId: string,
+  now: number
+): Promise<void> {
+  const card = await db.cards.get(id)
+  if (!card) throw new Error('Card not found')
+  await db.cards.put({
+    ...card,
+    ...content,
+    deckId,
+    hash: cardHash(content.kind, content.q, !!card.reversed),
+    updatedAt: now
+  })
+}
+
+/** Forget a card's progress so it is learned again from scratch. */
+export async function resetCard(id: string, now: number): Promise<void> {
+  const mem = newMemory(now)
+  await db.cards.update(id, { mem, due: mem.due, leech: 0, updatedAt: now })
 }

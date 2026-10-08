@@ -1,9 +1,10 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import { useLiveQuery } from 'dexie-react-hooks'
 import clsx from 'clsx'
 import {
   ArrowLeftIcon,
+  GearSixIcon,
   BrainIcon,
   CardsIcon,
   LightningIcon,
@@ -18,12 +19,14 @@ import { useNow, useSettings } from '../state/hooks'
 import { deckStyle } from '../lib/deckColors'
 import { Button } from '../components/ui/Button'
 import { Panel, SectionTitle } from '../components/ui/Panel'
+import { DeckSettings } from '../components/DeckSettings'
 import { MemState } from '../core/types'
 import { studyLink } from '../lib/links'
 
 export function DeckScreen(): React.JSX.Element {
   const { deckId = '' } = useParams()
   const navigate = useNavigate()
+  const [showSettings, setShowSettings] = useState(false)
   const settings = useSettings()
   const now = useNow()
   const data = useLiveQuery(async () => {
@@ -84,7 +87,11 @@ export function DeckScreen(): React.JSX.Element {
             {deck.description && <span className="block max-w-[65ch]">{deck.description}</span>}
           </p>
         </div>
+        <Button variant="secondary" onClick={() => setShowSettings(true)}>
+          <GearSixIcon /> Deck settings
+        </Button>
       </div>
+      {showSettings && <DeckSettings deck={deck} onClose={() => setShowSettings(false)} />}
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <Panel className="flex flex-col gap-6 p-7">

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { CheckIcon, XIcon } from '@phosphor-icons/react'
 import { RichText } from '../../components/RichText'
 import type { Question } from '../../core/questions'
+import { isTyping } from './keys'
 import { ChoiceTile, type ViewProps } from './shared'
 
 type TrueFalse = Extract<Question, { type: 'truefalse' }>
@@ -28,6 +29,7 @@ export function TrueFalseView({
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {
+      if (isTyping(e)) return
       const k = e.key.toLowerCase()
       if (k === 't' || k === '1') pick(true)
       if (k === 'f' || k === '2') pick(false)
