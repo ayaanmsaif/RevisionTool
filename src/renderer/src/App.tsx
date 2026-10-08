@@ -5,6 +5,7 @@ import { router } from './router'
 import { Toaster } from './components/Toaster'
 import { configureSound } from './audio/sfx'
 import { maybeDailyBackup } from './db/backup'
+import { useInbox } from './lib/inbox'
 import { now } from './core/clock'
 import { useApplyTheme, useClockOffset, useSettings } from './state/hooks'
 
@@ -14,6 +15,7 @@ function App(): React.JSX.Element {
   const settings = useSettings()
   useApplyTheme(settings.theme)
   useClockOffset(settings.clockOffsetDays)
+  useInbox(settings.inboxEnabled)
   useEffect(
     () => configureSound(settings.sound, settings.volume),
     [settings.sound, settings.volume]

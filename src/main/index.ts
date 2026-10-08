@@ -3,14 +3,18 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { registerFileHandlers } from './files'
+import { registerInbox } from './inbox'
+import { registerSkillHandlers } from './skill'
 
 // Tests and screenshots run against a throwaway profile so real study data is never touched.
 if (process.env['REVISIONTOOL_USER_DATA']) {
   app.setPath('userData', process.env['REVISIONTOOL_USER_DATA'])
 }
 
+let mainWindow: BrowserWindow | null = null
+
 function createWindow(): void {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1280,
     height: 840,
     minWidth: 960,
@@ -29,7 +33,10 @@ function createWindow(): void {
   })
 
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
+    mainWindow?.show()
+  })
+  mainWindow.on('closed', () => {
+    mainWindow = null
   })
 
   // Links in card content open in the user's browser, never inside the app.
@@ -62,6 +69,8 @@ app.whenReady().then(() => {
   })
 
   registerFileHandlers()
+  registerSkillHandlers()
+  registerInbox(() => mainWindow)
   createWindow()
 
   app.on('activate', function () {

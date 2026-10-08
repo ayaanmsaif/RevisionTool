@@ -120,3 +120,17 @@ export async function recordLessonFinished(
   }))
   return checkAchievements(now, settings)
 }
+
+/** Save a game result. Returns true when it beats the previous best. */
+export async function recordGameBest(kind: 'match' | 'blitz', value: number): Promise<boolean> {
+  let best = false
+  await updateProfile((p) => {
+    if (kind === 'match') {
+      best = p.stats.matchBestMs === undefined || value < p.stats.matchBestMs
+      return best ? { ...p, stats: { ...p.stats, matchBestMs: value } } : p
+    }
+    best = value > p.stats.blitzBest
+    return best ? { ...p, stats: { ...p.stats, blitzBest: value } } : p
+  })
+  return best
+}

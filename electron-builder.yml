@@ -5,15 +5,17 @@ directories:
 files:
   - '!**/.vscode/*'
   - '!src/*'
-  - '!e2e/*'
-  - '!docs/*'
-  - '!examples/*'
-  - '!.claude/*'
+  - '!e2e/**'
+  - '!docs/**'
+  - '!examples/**'
+  - '!.claude/**'
+  - '!test-results/**'
+  - '!playwright-report/**'
   - '!electron.vite.config.{js,ts,mjs,cjs}'
   - '!vitest.config.{js,ts,mjs,cjs}'
   - '!playwright.config.{js,ts,mjs,cjs}'
   - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
-  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml,skills-lock.json,.gitattributes,.editorconfig}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
   - resources/**

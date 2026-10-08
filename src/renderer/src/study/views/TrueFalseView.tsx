@@ -10,8 +10,9 @@ type TrueFalse = Extract<Question, { type: 'truefalse' }>
 export function TrueFalseView({
   question,
   feedback,
-  onAnswer
-}: ViewProps & { question: TrueFalse }): React.JSX.Element {
+  onAnswer,
+  reveal = true
+}: ViewProps & { question: TrueFalse; reveal?: boolean }): React.JSX.Element {
   const [picked, setPicked] = useState<boolean | null>(null)
   const locked = picked !== null || !!feedback
 
@@ -38,8 +39,11 @@ export function TrueFalseView({
     return () => window.removeEventListener('keydown', onKey)
   })
 
-  const stateFor = (value: boolean): 'idle' | 'correct' | 'wrong' | 'reveal' | 'dim' => {
+  const stateFor = (
+    value: boolean
+  ): 'idle' | 'selected' | 'correct' | 'wrong' | 'reveal' | 'dim' => {
     if (!locked) return 'idle'
+    if (!reveal) return value === picked ? 'selected' : 'dim'
     if (value === picked) return value === question.isTrue ? 'correct' : 'wrong'
     return value === question.isTrue ? 'reveal' : 'dim'
   }

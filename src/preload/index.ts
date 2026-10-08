@@ -23,6 +23,23 @@ const api = {
   openFolder: (which: 'backups' | 'inbox'): Promise<string> =>
     ipcRenderer.invoke('folder:open', which),
   paths: (): Promise<{ backups: string; inbox: string }> => ipcRenderer.invoke('paths:get'),
+  /** Start watching the inbox folder; files arrive through onInboxFile. */
+  inboxStart: (): Promise<string> => ipcRenderer.invoke('inbox:start'),
+  inboxStop: (): Promise<void> => ipcRenderer.invoke('inbox:stop'),
+  /** Tell the main process a file was handled so it can be moved out of the inbox. */
+  inboxDone: (name: string, ok: boolean): Promise<void> =>
+    ipcRenderer.invoke('inbox:done', { name, ok }),
+  onInboxFile: (cb: (file: { name: string; content: string }) => void): (() => void) => {
+    const listener = (
+      _e: Electron.IpcRendererEvent,
+      file: { name: string; content: string }
+    ): void => cb(file)
+    ipcRenderer.on('inbox:file', listener)
+    return () => ipcRenderer.removeListener('inbox:file', listener)
+  },
+  installClaudeSkill: (): Promise<string> => ipcRenderer.invoke('skill:install'),
+  claudeSkillStatus: (): Promise<{ installed: boolean; path: string }> =>
+    ipcRenderer.invoke('skill:status'),
   /** Test hook: exposes the database to automation when REVISIONTOOL_DEBUG=1. */
   debug: process.env['REVISIONTOOL_DEBUG'] === '1'
 }

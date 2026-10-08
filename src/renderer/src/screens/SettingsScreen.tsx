@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import {
   ClockCounterClockwiseIcon,
+  CopyIcon,
+  TerminalWindowIcon,
   DownloadSimpleIcon,
   FolderOpenIcon,
   SpeakerHighIcon,
@@ -21,6 +23,7 @@ import { toast } from '../state/toast'
 import { Button } from '../components/ui/Button'
 import { Field, Segmented, Switch, inputClass } from '../components/ui/Controls'
 import { Modal } from '../components/ui/Modal'
+import { copyText } from '../lib/clipboard'
 import { PageHeader, Panel, SectionTitle } from '../components/ui/Panel'
 
 const FORMAT_HELP: Partial<Record<Format, string>> = {
@@ -206,6 +209,11 @@ export function SettingsScreen(): React.JSX.Element {
           </Field>
         </Section>
 
+        <ClaudeCodeSection
+          inboxEnabled={s.inboxEnabled}
+          onInbox={(inboxEnabled) => set({ inboxEnabled })}
+        />
+
         <Section title="Your data">
           <p className="text-ink-muted">
             RevisionTool saves a backup automatically once a day and keeps the last 10.
@@ -343,6 +351,67 @@ export function SettingsScreen(): React.JSX.Element {
         </Modal>
       )}
     </div>
+  )
+}
+
+function ClaudeCodeSection({
+  inboxEnabled,
+  onInbox
+}: {
+  inboxEnabled: boolean
+  onInbox: (on: boolean) => void
+}): React.JSX.Element {
+  const [inbox, setInbox] = useState('')
+  const [skill, setSkill] = useState<{ installed: boolean; path: string } | null>(null)
+  useEffect(() => {
+    void window.api?.paths().then((p) => setInbox(p.inbox))
+    void window.api?.claudeSkillStatus().then(setSkill)
+  }, [])
+
+  return (
+    <Section title="Claude Code and the inbox folder">
+      <p className="text-ink-muted">
+        Claude Code comes with Claude Pro. With the make-deck skill installed, ask it to{' '}
+        <code className="rounded bg-sunken px-1.5 py-0.5 text-ink">/make-deck</code> your notes and
+        the finished deck lands in your inbox folder. RevisionTool imports anything saved there
+        automatically, including decks you download from a chatbot.
+      </p>
+      <Switch
+        checked={inboxEnabled}
+        onChange={onInbox}
+        label="Import from the inbox folder"
+        description="Imported files move to an Imported subfolder, so nothing is added twice."
+      />
+      {inbox && (
+        <div className="flex flex-wrap items-center gap-3 rounded-control bg-sunken px-4 py-3">
+          <code className="min-w-0 flex-1 truncate text-sm">{inbox}</code>
+          <Button variant="ghost" size="sm" onClick={() => void copyText(inbox)}>
+            <CopyIcon /> Copy path
+          </Button>
+          <Button variant="ghost" size="sm" onClick={() => void window.api.openFolder('inbox')}>
+            <FolderOpenIcon /> Open
+          </Button>
+        </div>
+      )}
+      <div className="flex flex-wrap items-center gap-4">
+        <Button
+          variant="secondary"
+          onClick={async () => {
+            const path = await window.api.installClaudeSkill()
+            setSkill({ installed: true, path })
+            toast({
+              tone: 'good',
+              title: 'make-deck skill installed',
+              body: 'Restart Claude Code, then type /make-deck followed by your notes file.'
+            })
+          }}
+        >
+          <TerminalWindowIcon />{' '}
+          {skill?.installed ? 'Reinstall the make-deck skill' : 'Install the make-deck skill'}
+        </Button>
+        {skill?.installed && <p className="text-sm text-ink-muted">Installed at {skill.path}</p>}
+      </div>
+    </Section>
   )
 }
 

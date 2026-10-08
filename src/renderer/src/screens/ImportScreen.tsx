@@ -365,8 +365,17 @@ function ReplyImporter(): React.JSX.Element {
       )}
 
       <div className="mt-auto flex items-center justify-between gap-4 border-t border-line pt-5">
-        <p className="text-sm text-ink-muted">
-          Re-importing an improved deck updates cards in place and keeps your progress.
+        <p className="max-w-[46ch] text-sm text-ink-muted">
+          Re-importing an improved deck updates cards in place and keeps your progress. Files saved
+          to your{' '}
+          <button
+            type="button"
+            onClick={() => void window.api?.openFolder('inbox')}
+            className="font-bold text-accent hover:underline"
+          >
+            inbox folder
+          </button>{' '}
+          are imported automatically.
         </p>
         <Button size="lg" variant="good" disabled={!importable.length || busy} onClick={doImport}>
           {totalCards ? `Import ${totalCards} card${totalCards === 1 ? '' : 's'}` : 'Import'}

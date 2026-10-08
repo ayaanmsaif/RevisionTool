@@ -10,8 +10,9 @@ export function McqView({
   question,
   feedback,
   onAnswer,
-  pretest
-}: ViewProps & { question: Mcq; pretest: boolean }): React.JSX.Element {
+  pretest,
+  reveal = true
+}: ViewProps & { question: Mcq; pretest: boolean; reveal?: boolean }): React.JSX.Element {
   const [picked, setPicked] = useState<number | null>(null)
   const locked = picked !== null || !!feedback
 
@@ -46,8 +47,9 @@ export function McqView({
       />
       <div className={short ? 'grid grid-cols-2 gap-3.5' : 'flex flex-col gap-3'}>
         {question.options.map((opt, i) => {
-          let state: 'idle' | 'correct' | 'wrong' | 'reveal' | 'dim' = 'idle'
-          if (locked) {
+          let state: 'idle' | 'selected' | 'correct' | 'wrong' | 'reveal' | 'dim' = 'idle'
+          if (locked && !reveal) state = i === picked ? 'selected' : 'dim'
+          else if (locked) {
             if (i === picked) state = i === question.correctIndex ? 'correct' : 'wrong'
             else if (i === question.correctIndex) state = 'reveal'
             else state = 'dim'
