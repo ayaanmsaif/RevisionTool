@@ -1,12 +1,13 @@
-import { contextBridge } from 'electron'
+import { clipboard, contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
-// Custom APIs for renderer
-const api = {}
+// The small, explicit surface the renderer may use. No Node access beyond this.
+const api = {
+  copyText: (text: string): void => clipboard.writeText(text)
+}
 
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
+export type RevisionApi = typeof api
+
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)

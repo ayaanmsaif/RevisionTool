@@ -35,6 +35,13 @@ export function daysBetween(a: string, b: string): number {
   return Math.round((Date.UTC(by, bm - 1, bd) - Date.UTC(ay, am - 1, ad)) / DAY_MS)
 }
 
+/** Timestamp of the start of the study day containing `ts` (last rollover). */
+export function startOfStudyDay(ts: number, rolloverHour = 4): number {
+  const d = new Date(ts - rolloverHour * 3_600_000)
+  d.setHours(rolloverHour, 0, 0, 0)
+  return d.getTime()
+}
+
 /** Timestamp of the end of the study day containing `ts` (next rollover). */
 export function endOfStudyDay(ts: number, rolloverHour = 4): number {
   const d = new Date(ts - rolloverHour * 3_600_000)

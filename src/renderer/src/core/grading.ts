@@ -133,7 +133,13 @@ export function parseNumber(raw: string): ParsedNumber | null {
     isInteger = false
   }
   if (!Number.isFinite(value)) return null
-  const unit = s.slice(m[0].length).trim().toLowerCase().replace(/\s+/g, '').replace(/[.]$/, '')
+  const unit = s
+    .slice(m[0].length)
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '')
+    .replace(/[.]$/, '')
+    .replace(/[µμ]/g, 'u')
   // Treat "3 apples" style answers as text, not numbers with units.
   if (
     unit.length > 12 ||

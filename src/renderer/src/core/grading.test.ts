@@ -115,3 +115,10 @@ describe('pointCoverage', () => {
     expect(pointCoverage(text, 'Nationalism in the Balkans')).toBe(0)
   })
 })
+
+describe('units', () => {
+  it('treats micro sign spellings as the same unit', () => {
+    expect(gradeText('50um', ['50 µm']).verdict).toBe('correct')
+    expect(gradeText('50 μm', ['50 µm']).verdict).toBe('correct')
+  })
+})

@@ -1,0 +1,200 @@
+{
+  "format": "revisiontool",
+  "version": 1,
+  "deck": {
+    "name": "Cell Biology Starter",
+    "emoji": "🧬",
+    "subject": "Biology",
+    "level": "A-level",
+    "description": "A sample deck that shows every question format. Delete it any time."
+  },
+  "cards": [
+    {
+      "id": "c1",
+      "topic": "Organelles",
+      "q": "Which organelle is the site of aerobic respiration?",
+      "a": "Mitochondria",
+      "answers": ["mitochondrion"],
+      "distractors": ["Ribosome", "Golgi apparatus", "Chloroplast"],
+      "cloze": "Aerobic respiration takes place in the {{mitochondria|mitochondrion}}.",
+      "false": ["Aerobic respiration takes place in the ribosomes."],
+      "explain": "Mitochondria run the Krebs cycle and oxidative phosphorylation, which produce most of the cell's ATP."
+    },
+    {
+      "id": "c2",
+      "topic": "Organelles",
+      "q": "Which organelle modifies and packages proteins for secretion?",
+      "a": "Golgi apparatus",
+      "answers": ["Golgi", "Golgi body"],
+      "distractors": ["Rough endoplasmic reticulum", "Lysosome", "Nucleolus"],
+      "cloze": "Proteins are modified and packaged into vesicles by the {{Golgi apparatus|Golgi}}.",
+      "false": ["The lysosome packages proteins into secretory vesicles."],
+      "explain": "Proteins made on the rough ER travel in vesicles to the Golgi, which adds carbohydrates and sorts them."
+    },
+    {
+      "id": "c3",
+      "topic": "Organelles",
+      "q": "What is the site of protein synthesis in a cell?",
+      "a": "Ribosomes",
+      "answers": ["ribosome"],
+      "distractors": ["Nucleus", "Smooth endoplasmic reticulum", "Centrioles"],
+      "cloze": "Proteins are synthesised on {{ribosomes|ribosome}}.",
+      "false": ["Proteins are synthesised inside the nucleus."],
+      "explain": "mRNA is translated at ribosomes, either free in the cytoplasm or attached to the rough ER."
+    },
+    {
+      "id": "c4",
+      "topic": "Organelles",
+      "q": "Which organelle contains digestive (hydrolytic) enzymes?",
+      "a": "Lysosome",
+      "answers": ["lysosomes"],
+      "distractors": ["Vacuole", "Peroxisome", "Golgi vesicle"],
+      "cloze": "{{Lysosomes|Lysosome}} contain hydrolytic enzymes that break down worn out organelles.",
+      "false": ["Ribosomes contain hydrolytic enzymes."],
+      "explain": "Lysosomes are vesicles of hydrolytic enzymes used to digest pathogens and old organelles (autolysis)."
+    },
+    {
+      "id": "c5",
+      "topic": "Organelles",
+      "q": "What is the function of the nucleolus?",
+      "a": "Makes ribosomes",
+      "answers": ["ribosome production", "produces ribosomes", "makes rRNA", "ribosome synthesis"],
+      "distractors": ["Stores DNA", "Controls cell division", "Makes lipids"],
+      "cloze": "The nucleolus is where {{ribosomes}} are made.",
+      "false": ["The nucleolus stores the cell's DNA."],
+      "explain": "The nucleolus makes ribosomal RNA and assembles ribosome subunits."
+    },
+    {
+      "id": "c6",
+      "topic": "Prokaryotes",
+      "q": "What size are the ribosomes in prokaryotic cells?",
+      "a": "70S",
+      "answers": ["70 S"],
+      "distractors": ["80S", "60S", "90S"],
+      "cloze": "Prokaryotic cells have smaller {{70S}} ribosomes.",
+      "false": ["Prokaryotic cells have 80S ribosomes, the same as eukaryotes."],
+      "explain": "Prokaryotes have 70S ribosomes, eukaryotes have larger 80S ribosomes in their cytoplasm."
+    },
+    {
+      "id": "c7",
+      "topic": "Prokaryotes",
+      "q": "What are small circular loops of DNA in bacteria called?",
+      "a": "Plasmids",
+      "answers": ["plasmid"],
+      "distractors": ["Chromatids", "Nucleoids", "Capsids"],
+      "cloze": "Many bacteria carry extra genes, such as antibiotic resistance, on {{plasmids|plasmid}}.",
+      "false": ["Plasmids are found in the nucleus of eukaryotic cells."],
+      "explain": "Plasmids replicate independently and can be passed between bacteria, spreading resistance genes."
+    },
+    {
+      "id": "c8",
+      "topic": "Prokaryotes",
+      "q": "What is the bacterial cell wall made of?",
+      "a": "Murein",
+      "answers": ["peptidoglycan"],
+      "distractors": ["Cellulose", "Chitin", "Lignin"],
+      "cloze": "Bacterial cell walls are made of {{murein|peptidoglycan}}.",
+      "false": ["Bacterial cell walls are made of cellulose."],
+      "explain": "Murein (peptidoglycan) is a glycoprotein. Plant cell walls are cellulose, fungal walls are chitin."
+    },
+    {
+      "id": "c9",
+      "topic": "Microscopy",
+      "q": "What is the formula for magnification?",
+      "a": "$M = \\frac{I}{A}$",
+      "distractors": ["$M = \\frac{A}{I}$", "$M = I \\times A$", "$M = I - A$"],
+      "false": ["Magnification equals actual size divided by image size."],
+      "explain": "Magnification = image size ÷ actual size. Rearrange to $A = \\frac{I}{M}$ to find the real size of a specimen."
+    },
+    {
+      "id": "c10",
+      "topic": "Microscopy",
+      "q": "An image is 50 mm long at ×1000 magnification. What is the actual length in µm?",
+      "a": "50 µm",
+      "answers": ["50", "50um", "50 micrometres"],
+      "distractors": ["5 µm", "500 µm", "0.05 µm"],
+      "cloze": "A 50 mm image at ×1000 is {{50 µm|50}} long in real life.",
+      "explain": "$A = \\frac{I}{M} = \\frac{50\\,000\\ \\mu m}{1000} = 50\\ \\mu m$. Convert to the same units first."
+    },
+    {
+      "id": "c11",
+      "topic": "Microscopy",
+      "q": "Which type of microscope gives a 3D image of a specimen's surface?",
+      "a": "Scanning electron microscope",
+      "answers": ["SEM"],
+      "distractors": ["Transmission electron microscope", "Light microscope", "Laser scanning confocal microscope"],
+      "cloze": "A {{scanning electron microscope|SEM}} produces 3D images of surfaces.",
+      "false": ["A transmission electron microscope produces 3D images of surfaces."],
+      "explain": "SEMs bounce electrons off the surface. TEMs pass electrons through thin sections and give higher resolution 2D images."
+    },
+    {
+      "id": "c12",
+      "topic": "Microscopy",
+      "q": "Why do electron microscopes have a higher resolution than light microscopes?",
+      "a": "Electrons have a shorter wavelength",
+      "answers": ["shorter wavelength", "electrons have shorter wavelength than light"],
+      "distractors": ["Electrons are brighter than light", "They use stronger lenses", "They magnify more"],
+      "cloze": "Electron microscopes resolve more detail because electrons have a {{shorter wavelength}} than light.",
+      "false": ["Electron microscopes have higher resolution because they magnify more."],
+      "explain": "Resolution is limited by wavelength. A shorter wavelength lets two close points be seen as separate."
+    },
+    {
+      "id": "c13",
+      "topic": "Membranes",
+      "q": "What is the name of the model describing membrane structure?",
+      "a": "Fluid mosaic model",
+      "answers": ["fluid mosaic"],
+      "distractors": ["Lock and key model", "Sliding filament model", "Induced fit model"],
+      "cloze": "Membrane structure is described by the {{fluid mosaic}} model.",
+      "false": ["Membrane structure is described by the induced fit model."],
+      "explain": "Fluid because phospholipids move freely; mosaic because proteins are scattered through the bilayer."
+    },
+    {
+      "id": "c14",
+      "topic": "Membranes",
+      "q": "Which molecule regulates membrane fluidity in animal cells?",
+      "a": "Cholesterol",
+      "distractors": ["Glycogen", "Glycoprotein", "Triglyceride"],
+      "cloze": "{{Cholesterol}} sits between phospholipids and makes the membrane less fluid.",
+      "false": ["Glycoproteins regulate the fluidity of the membrane."],
+      "explain": "Cholesterol binds phospholipid tails, pulling them together and reducing fluidity and permeability."
+    },
+    {
+      "id": "s1",
+      "kind": "steps",
+      "topic": "Cell division",
+      "q": "Put the stages of mitosis in order",
+      "steps": ["Prophase", "Metaphase", "Anaphase", "Telophase"],
+      "explain": "Chromosomes condense (P), line up on the equator (M), sister chromatids are pulled apart (A), then two nuclei form (T)."
+    },
+    {
+      "id": "s2",
+      "kind": "steps",
+      "topic": "Organelles",
+      "q": "Order the journey of a secreted protein",
+      "steps": [
+        "Made on ribosomes on the rough ER",
+        "Folded inside the rough ER",
+        "Transported in a vesicle to the Golgi",
+        "Modified and packaged by the Golgi",
+        "Vesicle fuses with the cell membrane (exocytosis)"
+      ],
+      "explain": "This pathway links several organelles and is a favourite six-mark question."
+    },
+    {
+      "id": "e1",
+      "kind": "essay",
+      "topic": "Prokaryotes",
+      "q": "Compare the structure of prokaryotic and eukaryotic cells.",
+      "points": [
+        "Prokaryotes have no nucleus; DNA is free in the cytoplasm",
+        "Prokaryotic DNA is circular and not associated with histones",
+        "Prokaryotes have smaller 70S ribosomes, eukaryotes 80S",
+        "Prokaryotes have no membrane-bound organelles",
+        "Prokaryotic cell walls are made of murein",
+        "Prokaryotes may have plasmids, a capsule and flagella"
+      ],
+      "explain": "Aim for paired comparisons: say what each type has, not just what one lacks."
+    }
+  ]
+}
