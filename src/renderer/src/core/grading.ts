@@ -298,18 +298,26 @@ function contentWords(s: string): string[] {
     .filter((w) => w.length >= 3 && !STOPWORDS.has(w))
 }
 
+const stemOf = (w: string): string => w.slice(0, Math.max(4, Math.ceil(w.length * 0.7)))
+
+function mentions(have: string[], w: string): boolean {
+  const stem = stemOf(w)
+  return have.some((h) => h.startsWith(stem) || (h.length >= 4 && w.startsWith(h)))
+}
+
 /**
  * Rough check of whether a free-recall answer mentions a key point: the share of the
  * point's content words that appear (prefix-matched, so "industrialised" hits "industrial").
+ * Words already in the question (`context`) do not count, because they say nothing about
+ * whether the point was recalled.
  */
-export function pointCoverage(text: string, point: string): number {
-  const words = contentWords(point)
+export function pointCoverage(text: string, point: string, context = ''): number {
+  const contextWords = contentWords(context)
+  const words = contentWords(point).filter((w) => !mentions(contextWords, w))
   if (!words.length) return 0
   const have = contentWords(text)
-  let hit = 0
-  for (const w of words) {
-    const stem = w.slice(0, Math.max(4, Math.ceil(w.length * 0.7)))
-    if (have.some((h) => h.startsWith(stem) || (h.length >= 4 && w.startsWith(h)))) hit++
-  }
-  return hit / words.length
+  return words.filter((w) => mentions(have, w)).length / words.length
 }
+
+/** Coverage at which a key point is pre-ticked as recalled. */
+export const POINT_DETECT_THRESHOLD = 0.3

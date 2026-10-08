@@ -83,3 +83,12 @@ describe('LessonQueue', () => {
     expect(lesson.upcoming).toEqual(['c', 'd'])
   })
 })
+
+describe('LessonQueue attempt cap', () => {
+  it('lets a card go after three misses so a lesson always ends', () => {
+    const lesson = new LessonQueue(['a'], seededRng(1))
+    for (let i = 0; i < 3; i++) lesson.answer([{ cardId: 'a', correct: false }])
+    expect(lesson.finished).toBe(true)
+    expect(lesson.wasMissed('a')).toBe(true)
+  })
+})

@@ -42,3 +42,8 @@ export function useApplyTheme(theme: Settings['theme']): void {
     return () => media.removeEventListener('change', apply)
   }, [theme])
 }
+
+/** Settings once loaded from the database (undefined until then). */
+export function useLoadedSettings(): Settings | undefined {
+  return useLiveQuery(getSettings, [])
+}

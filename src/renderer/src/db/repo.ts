@@ -215,7 +215,12 @@ export async function buildStudyQueue(opts: QueueOptions): Promise<CardRecord[]>
     : usable
         .filter((c) => c.mem.state !== MemState.New)
         .filter((c) => c.due <= now + (c.mem.state === MemState.Review ? 0 : LEARN_AHEAD_MS))
-  const learning = due.filter((c) => c.mem.state !== MemState.Review)
+  // Learning steps that are due now go first; ones due within the learn-ahead window
+  // only fill in after everything else, so a just-answered card is not asked again at once.
+  const learning = due.filter((c) => c.mem.state !== MemState.Review && c.due <= now)
+  const ahead = due
+    .filter((c) => c.mem.state !== MemState.Review && c.due > now)
+    .sort((a, b) => a.due - b.due)
   const reviewCap = Math.max(0, settings.maxReviewsPerDay - today.reviews)
   const cfg = schedulerConfig(settings)
   const reviews = due
@@ -239,7 +244,9 @@ export async function buildStudyQueue(opts: QueueOptions): Promise<CardRecord[]>
     fresh.push(c)
   }
 
-  return planQueue({ due: [...learning, ...reviews], fresh, now, scheduler: cfg })
+  const planned = planQueue({ due: [...learning, ...reviews], fresh, now, scheduler: cfg })
+  const inPlan = new Set(planned.map((c) => c.id))
+  return [...planned, ...ahead.filter((c) => !inPlan.has(c.id))]
 }
 
 // ---------- answering ----------

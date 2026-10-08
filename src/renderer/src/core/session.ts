@@ -88,7 +88,9 @@ export class LessonQueue {
   constructor(
     cardIds: string[],
     private readonly rng: Rng,
-    private readonly gap: [number, number] = [3, 5]
+    private readonly gap: [number, number] = [3, 5],
+    /** After this many misses a card is let go for today; FSRS brings it back soon. */
+    private readonly maxAttempts = 3
   ) {
     this.queue = [...new Set(cardIds)]
     this.total = this.queue.length
@@ -143,6 +145,10 @@ export class LessonQueue {
         continue
       }
       this.missed.add(cardId)
+      if (this.attemptsFor(cardId) >= this.maxAttempts) {
+        this.completed.add(cardId)
+        continue
+      }
       const [lo, hi] = this.gap
       const offset = lo + Math.floor(this.rng() * (hi - lo + 1))
       this.queue.splice(Math.min(offset, this.queue.length), 0, cardId)

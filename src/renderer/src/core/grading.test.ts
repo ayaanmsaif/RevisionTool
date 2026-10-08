@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { gradeText, isTypeable, normalise, parseNumber, pointCoverage } from './grading'
+import {
+  POINT_DETECT_THRESHOLD,
+  gradeText,
+  isTypeable,
+  normalise,
+  parseNumber,
+  pointCoverage
+} from './grading'
 
 const v = (input: string, accepted: string[], opts = {}): string =>
   gradeText(input, accepted, opts).verdict
@@ -113,6 +120,21 @@ describe('pointCoverage', () => {
     expect(pointCoverage(text, 'Militarism and the arms race')).toBeGreaterThanOrEqual(0.5)
     expect(pointCoverage(text, 'Alliance system divided Europe')).toBeGreaterThanOrEqual(0.5)
     expect(pointCoverage(text, 'Nationalism in the Balkans')).toBe(0)
+  })
+
+  it('ignores words that are already in the question', () => {
+    const prompt = 'Compare the structure of prokaryotic and eukaryotic cells.'
+    const text = 'No nucleus, DNA is circular, 70S ribosomes, murein cell wall, plasmids'
+    const points = [
+      'Prokaryotes have no nucleus; DNA is free in the cytoplasm',
+      'Prokaryotic DNA is circular and not associated with histones',
+      'Prokaryotes have smaller 70S ribosomes, eukaryotes 80S',
+      'Prokaryotes have no membrane-bound organelles',
+      'Prokaryotic cell walls are made of murein',
+      'Prokaryotes may have plasmids, a capsule and flagella'
+    ]
+    const detected = points.map((p) => pointCoverage(text, p, prompt) >= POINT_DETECT_THRESHOLD)
+    expect(detected).toEqual([true, true, true, false, true, true])
   })
 })
 
